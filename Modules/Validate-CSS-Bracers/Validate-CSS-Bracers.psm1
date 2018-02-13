@@ -1,30 +1,4 @@
-﻿################# Configure script settings #################
-# Full Path to css file
-# E.g. For *nix:
-#   $css_file_fullpath = "/path/to/file.css"
-# E.g. For Windows:
-#   $css_file_fullpath = "C:/path/to/file.css"
-$css_file_fullpath = ""
-
-# Alternatively, paste the css within this here-string (i.e. @' <here> '@)
-# NOTE: This section is used if $css_file_fullpath is empty
-$css_as_string = @'
-html {
-    font-size: 10px;
-}
-'@
-
-# Number of chars to spit out left and right of a found unmatching bracer
-$near_length = 100
-
-# Debug - Examples of bad css
-# NOTE: do not use.
-#$css_as_string = '*{box-sizing: border-box;}html}'
-#$css_as_string = '*{box-sizing: border-box;}html{font-size: 10px;}@media all and (min-width: 400px) { body {}} }'
-#############################################################
-
-<# BEGIN MODULE #>
-# Given a css string, returns the line number and position of the found unmatching bracer
+﻿# Given a css string, returns the line number and position of the found unmatching bracer
 # NOTE for @media nested queries:
 #     Assumes that when two closing bracers occur consecutively in a @media query, it's the end of the nested css.
 #     Hence, if the function finds a unmatching closing bracer after a media query, there is likely to be an extra closing bracer in the nearest preceding media query.'
@@ -172,14 +146,6 @@ function Validate-CSS-Bracers {
         }
     }
 }
-<# END MODULE #>
 
-# Entry point.
-# Build our params
-$params = @{
-    'File' = $css_file_fullpath
-    'CssAsString' = $css_as_string
-    'NearLength' = $near_length
-}
-# Call by splatting
-Validate-CSS-Bracers @params
+
+Export-ModuleMember -Function Validate-CSS-Bracers

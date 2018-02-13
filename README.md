@@ -8,14 +8,117 @@ This Powershell script helps locate any unmatching bracers in a .css file/string
 ## Features
 - Works for both minified and non-minified css.
 
-## Installation/usage:
-- Open the <code>Validate-CSS-Bracers.ps1</code> in your favourite text editor and configure scripts settings
-- WinNT:
-  - Right click on the script in explorer and select <code>Run with Powershell</code>. (should be present on Windows 7 and up)
-  - Alternatively, open command prompt in the script directory, and run <code>Powershell .\Validate-CSS-Bracers.ps1</code>
-- *nix:
-  - Run <code>powershell ./Validate-CSS-Bracers.ps1</code> or <code>pwsh ./Validate-CSS-Bracers.ps1</code> depending on which version of powershell you're running.
-  
+## How to use
+`Validate-CSS-Bracers` can be used as a *script* or a *module*.
+
+### As a Script
+> This method can only check a single file at a time.
+
+1. Open the <code>Validate-CSS-Bracers.ps1</code> in your favourite text editor and configure scripts settings:
+
+  ```powershell
+  # Full Path to css file
+  # E.g. For *nix:
+  #   $css_file_fullpath = "/path/to/file.css"
+  # E.g. For Windows:
+  #   $css_file_fullpath = "C:/path/to/file.css"
+  $css_file_fullpath = ""
+
+  # Alternatively, paste the css within this here-string (i.e. @' <here> '@)
+  # NOTE: This section is used if $css_file_fullpath is empty
+  $css_as_string = @'
+  html {
+      font-size: 10px;
+  }
+  '@
+  ```
+
+2. Run the script:
+  - WinNT: Right click on the script in explorer and select <code>Run with Powershell</code>. (should be present on Windows 7 and up). Alternatively, open command prompt in the script directory, and run <code>Powershell .\Validate-CSS-Bracers.ps1</code>
+  - *nix: Run <code>powershell ./Validate-CSS-Bracers.ps1</code> or <code>pwsh ./Validate-CSS-Bracers.ps1</code> depending on which version of powershell you're running.
+
+### As a Module
+> This method supports checking multiple css files by utilizing pipelining.
+
+1. [Install](https://msdn.microsoft.com/en-us/library/dd878350(v=vs.85).aspx) the `Validate-CSS-Bracers.psm1` module into **any** of the following directories:
+
+    *Windows*
+    ```powershell
+    %Windir%\System32\WindowsPowerShell\v1.0\Modules
+
+    %UserProfile%\Documents\WindowsPowerShell\Modules
+
+    %ProgramFiles%\WindowsPowerShell\Modules
+    ```
+
+    **nix*
+    > Note: These may vary between *nix distros. Check `$Env:PSModulePath` inside `Powershell`.
+
+    ```powershell
+    ~/.local/share/powershell/Modules
+
+    /usr/local/share/powershell/Modules
+
+    /opt/microsoft/powershell/6.0.0-rc/Modules
+    ```
+
+2. Import the module, then pipe the config into the module:
+
+    ```powershell
+    Import-Module Validate-CSS-Bracers
+
+    # You can either Pipe the file/files
+    $files | Validate-CSS-Bracers
+
+    # Or use the full Command (for single file)
+    Validate-CSS-Bracers -File $css_file_fullpath
+
+    # Or if you're using a string
+    Validate-CSS-Bracers -CssAsString $css_as_string
+    ```
+
+## Command Line
+
+```powershell
+ Validate-CSS-Bracers [[-File] <String>] [[-CssAsString] <String>] [[-NearLength] <Int32>] [<CommonParameters>]
+
+ PARAMETERS
+    -File <String>
+        Full Path to css file
+
+        Required?                    false
+        Position?                    1
+        Default value
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+
+    -CssAsString <String>
+        The configuration as a string, accepting input from the pipeline. Especially useful when you don't want to use
+        a separate config file.
+        Full Path to css file
+
+        Required?                    false
+        Position?                    2
+        Default value
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
+    -NearLength <Int32>
+        Number of chars to spit out left and right of a found unmatching bracer
+
+        Required?                    false
+        Position?                    3
+        Default value                0
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
+```
+
 ## FAQ
 
 ### WinNT
