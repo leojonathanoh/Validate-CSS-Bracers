@@ -62,7 +62,7 @@ This Powershell script helps locate any unmatching bracers in a .css file/string
     /opt/microsoft/powershell/6.0.0-rc/Modules
     ```
 
-2. Import the module, then pipe the config into the module:
+2. Import the module, then pipe the `.css` files into the module:
 
     ```powershell
     Import-Module Validate-CSS-Bracers
@@ -73,18 +73,18 @@ This Powershell script helps locate any unmatching bracers in a .css file/string
     # Or use the full Command (for single file)
     Validate-CSS-Bracers -File $css_file_fullpath
 
-    # Or if you're using a string
+    # Or if you're using a CSS string
     Validate-CSS-Bracers -CssAsString $css_as_string
     ```
 
 ## Command Line
 
 ```powershell
- Validate-CSS-Bracers [[-File] <String>] [[-CssAsString] <String>] [[-NearLength] <Int32>] [<CommonParameters>]
+Validate-CSS-Bracers [[-File] <String>] [[-CssAsString] <String>] [[-NearLength] <Int32>] [<CommonParameters>]
 
- PARAMETERS
+PARAMETERS
     -File <String>
-        Full Path to css file
+        Full Path to css file, accepting input from the pipeline.
 
         Required?                    false
         Position?                    1
@@ -93,9 +93,7 @@ This Powershell script helps locate any unmatching bracers in a .css file/string
         Accept wildcard characters?  false
 
     -CssAsString <String>
-        The configuration as a string, accepting input from the pipeline. Especially useful when you don't want to use
-        a separate config file.
-        Full Path to css file
+        CSS as a string.
 
         Required?                    false
         Position?                    2

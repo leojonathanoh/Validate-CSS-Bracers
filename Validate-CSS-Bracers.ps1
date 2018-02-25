@@ -101,11 +101,10 @@ function Validate-CSS-Bracers {
     This Powershell script helps locate any unmatching bracers in a .css file/string.
 
     .PARAMETER File
-    Full Path to css file
+    Full Path to css file, accepting input from the pipeline.
 
     .PARAMETER CssAsString
-    The configuration as a string, accepting input from the pipeline. Especially useful when you don't want to use a separate config file.
-    Full Path to css file
+    CSS as a string.
 
     .PARAMETER NearLength
     Number of chars to spit out left and right of a found unmatching bracer
@@ -118,9 +117,8 @@ function Validate-CSS-Bracers {
 
     .EXAMPLE
     Validate-CSS-Bracers -CssAsString $css_as_string -NearLength 100
-
-
     #>
+    
     [CmdletBinding()]
     param (
         [Parameter(ValueFromPipeline)]
